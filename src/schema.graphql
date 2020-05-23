@@ -1,0 +1,80 @@
+type Query {
+  hello(subject: String): String
+  """
+  Get current user
+  """
+  me: User
+  """
+  Get contacts
+  """
+  contacts: [Contact!]
+  """
+  Get contact by id
+  """
+  contact(id: Int!): Contact
+}
+
+type Mutation {
+  """
+  Register User
+  """
+  createUser(email: String!, password: String!, name: String!): AuthResponse
+  """
+  Login user
+  """
+  login(email: String!, password: String!): AuthResponse
+  """
+  Create contact
+  """
+  createContact(name: String!, email: String!, phone: String!): Contact
+  """
+  Update contact
+  """
+  updateContact(
+    id: Int!
+    name: String
+    email: String
+    phone: String
+    contactOwnerId: Int
+  ): Contact
+  """
+  Delete Contact
+  """
+  deleteContact(id: Int!): String
+}
+
+type AuthResponse {
+  """
+   Registered user
+  """
+  user: User
+  """
+   Generated token
+  """
+  token: String
+}
+
+type User {
+  id: Int
+  email: String
+  name: String
+  roles: String
+}
+
+enum ContactStatus {
+  NOT_ATTEMPTED
+  ATTEMPTED
+  CONTACTED
+  NEW_OPPORTUNITY
+  ADDITIONAL_CONTRACT
+  DISQUALIFIED
+}
+
+type Contact {
+  id: Int
+  name: String
+  email: String
+  phone: String
+  status: ContactStatus
+  contactOwner: User
+}
